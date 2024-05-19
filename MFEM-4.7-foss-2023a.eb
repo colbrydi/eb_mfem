@@ -1,0 +1,37 @@
+easyblock = 'CMakeMake'
+
+name = 'MFEM'
+version = '4.7'
+
+homepage = 'https://mfem.org/'
+description =  "MFEM is a general, modular library for finite element methods."
+
+toolchain = {'name': 'foss', 'version': '2023a'}
+
+source_urls = ['https://github.com/mfem/releases/raw/gh-pages/']
+sources = [ 'mfem-4.7.tgz' ]
+#sources = ['%(lowername)-%(version).tgz']
+
+builddependencies = [
+    ('CMake', '3.26.3'),
+]
+
+dependencies = [
+    ('METIS', '5.1.0'),
+]
+
+#configopts = '-DCM_ALL_FORTRAN=ON -DCM_ALL_USE_F08=ON -DCM_ALL_VORONOI=ON  '
+#configopts += '-DCM_ALL_TESTS=ON -DCM_ALL_AUTO_DOC=OFF'
+configopts = '-DMFEM_USE_METIS_5=YES -DMETIS_DIR=${EBROOTMETIS} '
+runtest = 'tests'
+moduleclass = 'devel'
+
+modextravars = {
+    'MFEM_DIR': '%(installdir)s',
+    'MFEM_BUILD_DIR': '%(installdir)s',
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': [ "include", "lib", "lib64", "share"],
+}
